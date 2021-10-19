@@ -5,6 +5,12 @@ using UnityEditor;
 
 public class ItemDesignerWindow : EditorWindow
 {
+    Texture2D headerSectionTexture;
+    Texture2D bodySectionTexture;
+
+    Rect headerSection;
+    Rect bodySection;
+
     [MenuItem("Window/Item Designer")]
     static void OpenWindow()
     {
