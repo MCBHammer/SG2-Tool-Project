@@ -88,30 +88,30 @@ public class ItemDesignerWindow : EditorWindow
     {
         GUILayout.BeginArea(bodySection);
 
-        GUILayout.Label("Base Item Properties");
+        GUILayout.Label("Base Item Properties", skin.GetStyle("Header2"));
 
         EditorGUILayout.BeginHorizontal();
-        GUILayout.Label("Item Name", skin.GetStyle("FirstBody"));
+        GUILayout.Label("Item Name", skin.GetStyle("Body1"));
         itemData.name = EditorGUILayout.TextField(itemData.name);
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.BeginHorizontal();
-        GUILayout.Label("Equipment Type", skin.GetStyle("FirstBody"));
+        GUILayout.Label("Equipment Type", skin.GetStyle("Body1"));
         itemData.itemType = (ItemType)EditorGUILayout.EnumPopup(itemData.itemType);
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.BeginHorizontal();
-        GUILayout.Label("Item School", skin.GetStyle("FirstBody"));
+        GUILayout.Label("Item School", skin.GetStyle("Body1"));
         itemData.school = (Schools)EditorGUILayout.EnumPopup(itemData.school);
         EditorGUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Level Restriction", skin.GetStyle("FirstBody"));
+        GUILayout.Label("Level Restriction", skin.GetStyle("Body1"));
         itemData.levelRestriction = EditorGUILayout.IntField(itemData.levelRestriction);
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
-        GUILayout.Label("2D Visual", skin.GetStyle("FirstBody"));
+        GUILayout.Label("2D Visual", skin.GetStyle("Body1"));
         itemData.Visual2D = (Sprite)EditorGUILayout.ObjectField(itemData.Visual2D, typeof(Sprite), false);
         GUILayout.EndHorizontal();
 
