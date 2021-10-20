@@ -24,7 +24,7 @@ public class ItemDesignerWindow : EditorWindow
     static void OpenWindow()
     {
         window = (ItemDesignerWindow)GetWindow(typeof(ItemDesignerWindow));
-        window.minSize = new Vector2(600, 300);
+        window.minSize = new Vector2(600, 220);
         //window.maxSize
         window.Show();
     }
@@ -44,7 +44,7 @@ public class ItemDesignerWindow : EditorWindow
     void InitVisuals()
     {
         headerSectionTexture = new Texture2D(1, 1);
-        headerSectionTexture.SetPixel(0, 0, new Color(0f, 0f, 1f, 1f));
+        headerSectionTexture.SetPixel(0, 0, new Color(0f, 0f, 0.75f, 1f));
         headerSectionTexture.Apply();
 
         bodySectionTexture = new Texture2D(1, 1);
@@ -64,7 +64,7 @@ public class ItemDesignerWindow : EditorWindow
         headerSection.x = 0;
         headerSection.y = 0;
         headerSection.width = Screen.width;
-        headerSection.height = 100;
+        headerSection.height = 60;
 
         bodySection.x = 0;
         bodySection.y = headerSection.height;
