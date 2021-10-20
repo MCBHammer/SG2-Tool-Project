@@ -136,6 +136,11 @@ public class AddedSettings : EditorWindow
     static AddedSettings window;
     static ItemType itemSetting;
 
+    Rect valueSection;
+    Rect addSection;
+    Rect removeSection;
+    Rect finishSection;
+
     BuffType[] setBuff = new BuffType[0];
     Schools[] setSchool = new Schools[0];
     int[] setValue = new int[0];
@@ -144,18 +149,56 @@ public class AddedSettings : EditorWindow
     {
         itemSetting = itemType;
         window = (AddedSettings)GetWindow(typeof(AddedSettings));
-        window.minSize = new Vector2(400, 300);
+        window.minSize = new Vector2(400, 600);
         window.Show();
     }
 
     void OnGUI()
     {
         DrawSettings((ItemData)ItemDesignerWindow.ItemInfo);
+        DrawLayouts();
+    }
+
+    void DrawLayouts()
+    {
+        valueSection.x = 0;
+        valueSection.y = 0;
+        valueSection.width = Screen.width;
+        valueSection.height = Screen.height - 220;
+
+        addSection.x = 0;
+        addSection.y = valueSection.height;
+        addSection.width = Screen.width;
+        addSection.height = 80;
+
+        removeSection.x = 0;
+        removeSection.y = valueSection.height + addSection.height;
+        removeSection.width = Screen.width;
+        removeSection.height = 80;
+
+        finishSection.x = 0;
+        finishSection.y = valueSection.height + addSection.height + removeSection.height;
+        finishSection.width = Screen.width;
+        finishSection.height = 40;
     }
 
     void DrawSettings(ItemData itemData)
     {
         #region addButtons
+
+        GUILayout.BeginArea(valueSection);
+        for (int i = 0; i < itemData.BuffArray.Length; i++)
+        {
+            GUILayout.BeginHorizontal();
+            int arrayLength = itemData.BuffArray.Length;
+            GUILayout.Label("Buff " + (i + 1));
+            setBuff[i] = (BuffType)EditorGUILayout.EnumPopup(setBuff[i]);
+            setSchool[i] = (Schools)EditorGUILayout.EnumPopup(setSchool[i]);
+            setValue[i] = EditorGUILayout.IntField(setValue[i]);
+            itemData.BuffArray[i] = (Buff)ScriptableObject.CreateInstance("Buff");
+            itemData.BuffArray[i].Init(setBuff[i], setSchool[i], setValue[i]);
+            GUILayout.EndHorizontal();
+        }
 
         for (int i = 0; i < itemData.maxHP.Length; i++)
         {
@@ -174,37 +217,9 @@ public class AddedSettings : EditorWindow
             itemData.maxMP[arrayLength - 1] = EditorGUILayout.IntField(itemData.maxMP[arrayLength - 1]);
             GUILayout.EndHorizontal();
         }
+        GUILayout.EndArea();
 
-        for (int i = 0; i < itemData.BuffArray.Length; i++)
-        {
-            GUILayout.BeginHorizontal();
-            int arrayLength = itemData.BuffArray.Length;
-            GUILayout.Label("Buff " + (i+1));
-            setBuff[i] = (BuffType)EditorGUILayout.EnumPopup(setBuff[i]);
-            setSchool[i] = (Schools)EditorGUILayout.EnumPopup(setSchool[i]);
-            setValue[i] = EditorGUILayout.IntField(setValue[i]);
-            itemData.BuffArray[i] = new Buff(setBuff[i], setSchool[i], setValue[i]);
-            GUILayout.EndHorizontal();
-        }
-
-        if (itemData.maxHP.Length == 0)
-        {
-            if (GUILayout.Button("Add HP Parameter", GUILayout.Height(30)))
-            {
-                int arrayLength = itemData.maxHP.Length;
-                itemData.maxHP = new int[arrayLength + 1];
-            }
-        }
-
-        if (itemData.maxMP.Length == 0)
-        {
-            if (GUILayout.Button("Add MP Parameter", GUILayout.Height(30)))
-            {
-                int arrayLength = itemData.maxMP.Length;
-                itemData.maxMP = new int[arrayLength + 1];
-            }
-        }
-
+        GUILayout.BeginArea(addSection);
         if (GUILayout.Button("Add Buff", GUILayout.Height(30)))
         {
             int arrayLength = itemData.BuffArray.Length;
@@ -225,14 +240,77 @@ public class AddedSettings : EditorWindow
             }
         }
 
-        #endregion
+        if (itemData.maxHP.Length == 0)
+        {
+            if (GUILayout.Button("Add HP Parameter", GUILayout.Height(20)))
+            {
+                int arrayLength = itemData.maxHP.Length;
+                itemData.maxHP = new int[arrayLength + 1];
+            }
+        }
 
+        if (itemData.maxMP.Length == 0)
+        {
+            if (GUILayout.Button("Add MP Parameter", GUILayout.Height(20)))
+            {
+                int arrayLength = itemData.maxMP.Length;
+                itemData.maxMP = new int[arrayLength + 1];
+            }
+        }
+        GUILayout.EndArea();
+
+        GUILayout.BeginArea(removeSection);
+        if (GUILayout.Button("Remove Buff", GUILayout.Height(30)))
+        {
+            int arrayLength = itemData.BuffArray.Length;
+            if(arrayLength > 0)
+            {
+                Buff[] tempArray = itemData.BuffArray;
+                itemData.BuffArray = new Buff[arrayLength - 1];
+                BuffType[] tempBuff = setBuff;
+                setBuff = new BuffType[arrayLength - 1];
+                Schools[] tempSchool = setSchool;
+                setSchool = new Schools[arrayLength - 1];
+                int[] valueArray = setValue;
+                setValue = new int[arrayLength - 1];
+                for (int i = 0; i < arrayLength - 1; i++)
+                {
+                    itemData.BuffArray[i] = tempArray[i];
+                    setValue[i] = valueArray[i];
+                    setBuff[i] = tempBuff[i];
+                    setSchool[i] = tempSchool[i];
+                }
+            }         
+        }
+
+        if (itemData.maxHP.Length > 0)
+        {
+            if (GUILayout.Button("Remove HP Parameter", GUILayout.Height(20)))
+            {
+                int arrayLength = itemData.maxHP.Length;
+                itemData.maxHP = new int[arrayLength - 1];
+            }
+        }
+
+        if (itemData.maxMP.Length > 0)
+        {
+            if (GUILayout.Button("Remove MP Parameter", GUILayout.Height(20)))
+            {
+                int arrayLength = itemData.maxMP.Length;
+                itemData.maxMP = new int[arrayLength - 1];
+            }
+        }
+        GUILayout.EndArea();
+
+        #endregion
+        GUILayout.BeginArea(finishSection);
         if (GUILayout.Button("Finish and Save", GUILayout.Height(30)))
         {
             SaveCharacterData();
             window.Close();
             ItemDesignerWindow.window.Close();
         }
+        GUILayout.EndArea();
     }
 
     void SaveCharacterData()

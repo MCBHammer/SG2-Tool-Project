@@ -8,7 +8,7 @@ public class Buff : ScriptableObject
     public BuffType buffType;
     public Schools buffSchool;
     public int buffValue;
-    public Buff(BuffType setBuff, Schools setSchool, int setValue)
+    public void Init(BuffType setBuff, Schools setSchool, int setValue)
     {
         buffType = setBuff;
         buffSchool = setSchool;
