@@ -11,7 +11,7 @@ public class ItemData : BaseData
     public Buff[] BuffArray = new Buff[0];
 }
 
-public class Buff : ItemData
+public class Buff : ScriptableObject
 {
     public BuffType buffType;
     public Schools buffSchool;
