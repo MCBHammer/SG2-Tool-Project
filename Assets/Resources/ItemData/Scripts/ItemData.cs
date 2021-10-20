@@ -1,13 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Types;
 
-public class ItemData : ScriptableObject
+[CreateAssetMenuAttribute(fileName = "New Item Data", menuName = "ItemData")]
+public class ItemData : BaseData
 {
-    public string name;
-    public ItemType itemType;
-    public Schools school;
-    public int levelRestriction;
-    public Sprite Visual2D;
+    int MaxHP;
+    int MaxMP;
 }

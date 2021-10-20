@@ -13,12 +13,10 @@ public class ItemDesignerWindow : EditorWindow
     Rect bodySection;
 
     static ItemData itemData;
-    static AddedData addedData;
 
     GUISkin skin;
 
     public static ItemData ItemInfo { get { return itemData; } }
-    public static AddedData AddedInfo { get { return addedData; } }
 
     [MenuItem("Window/Item Designer")]
     static void OpenWindow()
@@ -114,7 +112,15 @@ public class ItemDesignerWindow : EditorWindow
         itemData.Visual2D = (Sprite)EditorGUILayout.ObjectField(itemData.Visual2D, typeof(Sprite), false);
         GUILayout.EndHorizontal();
 
-        if (GUILayout.Button("Create", GUILayout.Height(40)))
+        if (itemData.name == null || itemData.name.Length < 1)
+        {
+            EditorGUILayout.HelpBox("This Item needs a [Name] before it can be further modified", MessageType.Warning);
+        }
+        else if (itemData.Visual2D == null)
+        {
+            EditorGUILayout.HelpBox("This Item needs a [Sprite] before it can be further modified", MessageType.Warning);
+        }
+        else if (GUILayout.Button("Create", GUILayout.Height(40)))
         {
             AddedSettings.OpenWindow(itemData.itemType);
         }
@@ -134,5 +140,198 @@ public class AddedSettings : EditorWindow
         window = (AddedSettings)GetWindow(typeof(AddedSettings));
         window.minSize = new Vector2(400, 300);
         window.Show();
+    }
+
+    void OnGUI()
+    {
+        DrawSettings();
+    }
+
+    void DrawSettings()
+    {
+        if (GUILayout.Button("Finish and Save", GUILayout.Height(30)))
+        {
+            SaveCharacterData();
+            window.Close();
+        }
+    }
+
+    void SaveCharacterData()
+    {
+        string objectPath = "Assets/Objects/Items/";
+        string dataPath = "Assets/Resources/ItemData/Data/";
+
+        switch (itemSetting)
+        {
+            #region switchHell
+            case ItemType.HAT:
+
+                dataPath += "Hats/" + ItemDesignerWindow.ItemInfo.name + ".asset";
+                AssetDatabase.CreateAsset(ItemDesignerWindow.ItemInfo, dataPath);
+
+                objectPath += "Hats/" + ItemDesignerWindow.ItemInfo.name + ".prefab";
+
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
+                GameObject hatObject = new GameObject();
+                if (!hatObject.GetComponent<Item>())
+                {
+                    hatObject.AddComponent(typeof(Item));
+                }
+                hatObject.GetComponent<Item>().itemData = ItemDesignerWindow.ItemInfo;
+                PrefabUtility.SaveAsPrefabAsset(hatObject, objectPath);
+                DestroyImmediate(hatObject);
+
+                break;
+
+            case ItemType.ROBE:
+
+                dataPath += "Robes/" + ItemDesignerWindow.ItemInfo.name + ".asset";
+                AssetDatabase.CreateAsset(ItemDesignerWindow.ItemInfo, dataPath);
+
+                objectPath += "Robes/" + ItemDesignerWindow.ItemInfo.name + ".prefab";
+
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
+                GameObject robeObject = new GameObject();
+                if (!robeObject.GetComponent<Item>())
+                {
+                    robeObject.AddComponent(typeof(Item));
+                }
+                robeObject.GetComponent<Item>().itemData = ItemDesignerWindow.ItemInfo;
+                PrefabUtility.SaveAsPrefabAsset(robeObject, objectPath);
+                DestroyImmediate(robeObject);
+
+                break;
+
+            case ItemType.SHOES:
+
+                dataPath += "Shoes/" + ItemDesignerWindow.ItemInfo.name + ".asset";
+                AssetDatabase.CreateAsset(ItemDesignerWindow.ItemInfo, dataPath);
+
+                objectPath += "Shoes/" + ItemDesignerWindow.ItemInfo.name + ".prefab";
+
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
+                GameObject shoesObject = new GameObject();
+                if (!shoesObject.GetComponent<Item>())
+                {
+                    shoesObject.AddComponent(typeof(Item));
+                }
+                shoesObject.GetComponent<Item>().itemData = ItemDesignerWindow.ItemInfo;
+                PrefabUtility.SaveAsPrefabAsset(shoesObject, objectPath);
+                DestroyImmediate(shoesObject);
+
+                break;
+
+            case ItemType.WAND:
+
+                dataPath += "Wands/" + ItemDesignerWindow.ItemInfo.name + ".asset";
+                AssetDatabase.CreateAsset(ItemDesignerWindow.ItemInfo, dataPath);
+
+                objectPath += "Wands/" + ItemDesignerWindow.ItemInfo.name + ".prefab";
+
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
+                GameObject wandObject = new GameObject();
+                if (!wandObject.GetComponent<Item>())
+                {
+                    wandObject.AddComponent(typeof(Item));
+                }
+                wandObject.GetComponent<Item>().itemData = ItemDesignerWindow.ItemInfo;
+                PrefabUtility.SaveAsPrefabAsset(wandObject, objectPath);
+                DestroyImmediate(wandObject);
+
+                break;
+
+            case ItemType.AMULET:
+
+                dataPath += "Amulets/" + ItemDesignerWindow.ItemInfo.name + ".asset";
+                AssetDatabase.CreateAsset(ItemDesignerWindow.ItemInfo, dataPath);
+
+                objectPath += "Amulets/" + ItemDesignerWindow.ItemInfo.name + ".prefab";
+
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
+                GameObject amuletObject = new GameObject();
+                if (!amuletObject.GetComponent<Item>())
+                {
+                    amuletObject.AddComponent(typeof(Item));
+                }
+                amuletObject.GetComponent<Item>().itemData = ItemDesignerWindow.ItemInfo;
+                PrefabUtility.SaveAsPrefabAsset(amuletObject, objectPath);
+                DestroyImmediate(amuletObject);
+
+                break;
+
+            case ItemType.ATHAME:
+
+                dataPath += "Athames/" + ItemDesignerWindow.ItemInfo.name + ".asset";
+                AssetDatabase.CreateAsset(ItemDesignerWindow.ItemInfo, dataPath);
+
+                objectPath += "Athames/" + ItemDesignerWindow.ItemInfo.name + ".prefab";
+
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
+                GameObject athameObject = new GameObject();
+                if (!athameObject.GetComponent<Item>())
+                {
+                    athameObject.AddComponent(typeof(Item));
+                }
+                athameObject.GetComponent<Item>().itemData = ItemDesignerWindow.ItemInfo;
+                PrefabUtility.SaveAsPrefabAsset(athameObject, objectPath);
+                DestroyImmediate(athameObject);
+
+                break;
+
+            case ItemType.RING:
+
+                dataPath += "Rings/" + ItemDesignerWindow.ItemInfo.name + ".asset";
+                AssetDatabase.CreateAsset(ItemDesignerWindow.ItemInfo, dataPath);
+
+                objectPath += "Rings/" + ItemDesignerWindow.ItemInfo.name + ".prefab";
+
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
+                GameObject ringObject = new GameObject();
+                if (!ringObject.GetComponent<Item>())
+                {
+                    ringObject.AddComponent(typeof(Item));
+                }
+                ringObject.GetComponent<Item>().itemData = ItemDesignerWindow.ItemInfo;
+                PrefabUtility.SaveAsPrefabAsset(ringObject, objectPath);
+                DestroyImmediate(ringObject);
+
+                break;
+
+            case ItemType.DECK:
+
+                dataPath += "Decks/" + ItemDesignerWindow.ItemInfo.name + ".asset";
+                AssetDatabase.CreateAsset(ItemDesignerWindow.ItemInfo, dataPath);
+
+                objectPath += "Decks/" + ItemDesignerWindow.ItemInfo.name + ".prefab";
+
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+
+                GameObject deckObject = new GameObject();
+                if (!deckObject.GetComponent<Item>())
+                {
+                    deckObject.AddComponent(typeof(Item));
+                }
+                deckObject.GetComponent<Item>().itemData = ItemDesignerWindow.ItemInfo;
+                PrefabUtility.SaveAsPrefabAsset(deckObject, objectPath);
+                DestroyImmediate(deckObject);
+
+                break;
+                #endregion
+        }
     }
 }
