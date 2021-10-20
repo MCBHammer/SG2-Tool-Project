@@ -63,7 +63,7 @@ public class ItemDesignerWindow : EditorWindow
         headerSection.x = 0;
         headerSection.y = 0;
         headerSection.width = Screen.width;
-        headerSection.height = 50;
+        headerSection.height = 100;
 
         bodySection.x = 0;
         bodySection.y = headerSection.height;
@@ -136,6 +136,9 @@ public class AddedSettings : EditorWindow
     static AddedSettings window;
     static ItemType itemSetting;
 
+    Texture2D valueSectionTexture;
+    Texture2D buttonSectionTexture;
+
     Rect valueSection;
     Rect addSection;
     Rect removeSection;
@@ -153,10 +156,26 @@ public class AddedSettings : EditorWindow
         window.Show();
     }
 
+    void OnEnable()
+    {
+        InitVisuals();
+    }
+
+    void InitVisuals()
+    {
+        valueSectionTexture = new Texture2D(1, 1);
+        valueSectionTexture.SetPixel(0, 0, new Color(0f, 0.5f, 0f, 1f));
+        valueSectionTexture.Apply();
+
+        buttonSectionTexture = new Texture2D(1, 1);
+        buttonSectionTexture.SetPixel(0, 0, new Color(0.5f, 0.5f, 0.5f, 1f));
+        buttonSectionTexture.Apply();
+    }
+
     void OnGUI()
     {
-        DrawSettings((ItemData)ItemDesignerWindow.ItemInfo);
         DrawLayouts();
+        DrawSettings((ItemData)ItemDesignerWindow.ItemInfo); 
     }
 
     void DrawLayouts()
@@ -180,6 +199,11 @@ public class AddedSettings : EditorWindow
         finishSection.y = valueSection.height + addSection.height + removeSection.height;
         finishSection.width = Screen.width;
         finishSection.height = 40;
+
+        GUI.DrawTexture(valueSection, valueSectionTexture);
+        GUI.DrawTexture(addSection, buttonSectionTexture);
+        GUI.DrawTexture(removeSection, buttonSectionTexture);
+        GUI.DrawTexture(finishSection, buttonSectionTexture);
     }
 
     void DrawSettings(ItemData itemData)
