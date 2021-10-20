@@ -6,12 +6,12 @@ using Types;
 [CreateAssetMenuAttribute(fileName = "New Item Data", menuName = "ItemData")]
 public class ItemData : BaseData
 {
-    public int maxHP;
-    public int maxMP;
-    public DamageBuff damageBuff;
-    public AccuracyBuff accuracyBuff;
-    public CritBuff critBuff;
-    public ResistanceBuff resistanceBuff;
+    public int[] maxHP = new int [0];
+    public int[] maxMP = new int[0];
+    public DamageBuff[] damageBuff = new DamageBuff[0];
+    public AccuracyBuff[] accuracyBuff = new AccuracyBuff[0];
+    public CritBuff[] critBuff = new CritBuff[0];
+    public ResistanceBuff[] resistanceBuff = new ResistanceBuff[0];
 }
 
 public class DamageBuff : ItemData

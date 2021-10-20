@@ -6,6 +6,8 @@ using Types;
 
 public class ItemDesignerWindow : EditorWindow
 {
+    public static ItemDesignerWindow window;
+
     Texture2D headerSectionTexture;
     Texture2D bodySectionTexture;
 
@@ -21,7 +23,7 @@ public class ItemDesignerWindow : EditorWindow
     [MenuItem("Window/Item Designer")]
     static void OpenWindow()
     {
-        ItemDesignerWindow window = (ItemDesignerWindow)GetWindow(typeof(ItemDesignerWindow));
+        window = (ItemDesignerWindow)GetWindow(typeof(ItemDesignerWindow));
         window.minSize = new Vector2(600, 300);
         //window.maxSize
         window.Show();
@@ -144,15 +146,122 @@ public class AddedSettings : EditorWindow
 
     void OnGUI()
     {
-        DrawSettings();
+        DrawSettings((ItemData)ItemDesignerWindow.ItemInfo);
     }
 
-    void DrawSettings()
+    void DrawSettings(ItemData itemData)
     {
+        #region addButtons
+
+        for (int i = 0; i < itemData.maxHP.Length; i++)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Max HP");
+            int arrayLength = itemData.maxHP.Length;
+            itemData.maxHP[arrayLength - 1] = EditorGUILayout.IntField(itemData.maxHP[arrayLength - 1]);
+            GUILayout.EndHorizontal();
+        }
+
+        for (int i = 0; i < itemData.maxMP.Length; i++)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Max MP");
+            int arrayLength = itemData.maxMP.Length;
+            itemData.maxMP[arrayLength - 1] = EditorGUILayout.IntField(itemData.maxMP[arrayLength - 1]);
+            GUILayout.EndHorizontal();
+        }
+
+        for (int i = 0; i < itemData.damageBuff.Length; i++)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Damage Buff");
+            int arrayLength = itemData.damageBuff.Length;
+            itemData.damageBuff[arrayLength - 1].buffSchool = (Schools)EditorGUILayout.EnumPopup(itemData.damageBuff[arrayLength - 1].buffSchool);
+            itemData.damageBuff[arrayLength - 1].buffValue = EditorGUILayout.IntField(itemData.damageBuff[arrayLength - 1].buffValue);
+            GUILayout.EndHorizontal();
+        }
+
+        for (int i = 0; i < itemData.accuracyBuff.Length; i++)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Accuracy Buff");
+            int arrayLength = itemData.accuracyBuff.Length;
+            itemData.accuracyBuff[arrayLength - 1].buffSchool = (Schools)EditorGUILayout.EnumPopup(itemData.accuracyBuff[arrayLength - 1].buffSchool);
+            itemData.accuracyBuff[arrayLength - 1].buffValue = EditorGUILayout.IntField(itemData.accuracyBuff[arrayLength - 1].buffValue);
+            GUILayout.EndHorizontal();
+        }
+
+        for (int i = 0; i < itemData.critBuff.Length; i++)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Crit Rate Buff");
+            int arrayLength = itemData.critBuff.Length;
+            itemData.critBuff[arrayLength - 1].buffSchool = (Schools)EditorGUILayout.EnumPopup(itemData.critBuff[arrayLength - 1].buffSchool);
+            itemData.critBuff[arrayLength - 1].buffValue = EditorGUILayout.IntField(itemData.critBuff[arrayLength - 1].buffValue);
+            GUILayout.EndHorizontal();
+        }
+
+        for (int i = 0; i < itemData.resistanceBuff.Length; i++)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Resistance Buff");
+            int arrayLength = itemData.resistanceBuff.Length;
+            itemData.resistanceBuff[arrayLength - 1].buffSchool = (Schools)EditorGUILayout.EnumPopup(itemData.resistanceBuff[arrayLength - 1].buffSchool);
+            itemData.resistanceBuff[arrayLength - 1].buffValue = EditorGUILayout.IntField(itemData.resistanceBuff[arrayLength - 1].buffValue);
+            GUILayout.EndHorizontal();
+        }
+
+        if (itemData.maxHP.Length == 0)
+        {
+            if (GUILayout.Button("Add HP Parameter", GUILayout.Height(30)))
+            {
+                int arrayLength = itemData.maxHP.Length;
+                itemData.maxHP = new int[arrayLength + 1];
+            }
+        }
+
+        if (itemData.maxMP.Length == 0)
+        {
+            if (GUILayout.Button("Add MP Parameter", GUILayout.Height(30)))
+            {
+                int arrayLength = itemData.maxMP.Length;
+                itemData.maxMP = new int[arrayLength + 1];
+            }
+        }
+
+        if (GUILayout.Button("Add Damage Buff", GUILayout.Height(30)))
+        {
+            int arrayLength = itemData.damageBuff.Length;
+            itemData.damageBuff = new DamageBuff[arrayLength + 1];
+        }
+
+
+        if (GUILayout.Button("Add Accuracy Buff", GUILayout.Height(30)))
+        {
+            int arrayLength = itemData.accuracyBuff.Length;
+            itemData.accuracyBuff = new AccuracyBuff[arrayLength + 1];
+        }
+
+        if (GUILayout.Button("Add Crit Rate Buff", GUILayout.Height(30)))
+        {
+            int arrayLength = itemData.critBuff.Length;
+            itemData.critBuff = new CritBuff[arrayLength + 1];
+        }
+
+        if (GUILayout.Button("Add Resistance Buff", GUILayout.Height(30)))
+        {
+            int arrayLength = itemData.resistanceBuff.Length;
+            itemData.resistanceBuff = new ResistanceBuff[arrayLength + 1];
+        }
+        
+
+        #endregion
+
         if (GUILayout.Button("Finish and Save", GUILayout.Height(30)))
         {
             SaveCharacterData();
             window.Close();
+            ItemDesignerWindow.window.Close();
         }
     }
 
