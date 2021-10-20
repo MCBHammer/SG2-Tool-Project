@@ -184,7 +184,6 @@ public class AddedSettings : EditorWindow
             setSchool[i] = (Schools)EditorGUILayout.EnumPopup(setSchool[i]);
             setValue[i] = EditorGUILayout.IntField(setValue[i]);
             itemData.BuffArray[i] = new Buff(setBuff[i], setSchool[i], setValue[i]);
-            //ScriptableObject.CreateInstance("Buff");
             GUILayout.EndHorizontal();
         }
 
@@ -240,11 +239,10 @@ public class AddedSettings : EditorWindow
     {
         string objectPath = "Assets/Objects/Items/";
         string dataPath = "Assets/Objects/ItemData/";
-        string buffPath = "Assets/Objects/BuffData/";
 
         for(int i = 0; i < ItemDesignerWindow.ItemInfo.BuffArray.Length; i++)
         {
-            buffPath += ItemDesignerWindow.ItemInfo.name + " Buff " + (i + 1) + ".asset";
+            string buffPath = "Assets/Objects/BuffData/" + ItemDesignerWindow.ItemInfo.name + " Buff " + (i + 1) + ".asset";
             AssetDatabase.CreateAsset(ItemDesignerWindow.ItemInfo.BuffArray[i], buffPath);
         }
 
