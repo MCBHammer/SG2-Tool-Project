@@ -136,6 +136,10 @@ public class AddedSettings : EditorWindow
     static AddedSettings window;
     static ItemType itemSetting;
 
+    BuffType[] setBuff = new BuffType[0];
+    Schools[] setSchool = new Schools[0];
+    int[] setValue = new int[0];
+
     public static void OpenWindow(ItemType itemType)
     {
         itemSetting = itemType;
@@ -171,43 +175,15 @@ public class AddedSettings : EditorWindow
             GUILayout.EndHorizontal();
         }
 
-        for (int i = 0; i < itemData.damageBuff.Length; i++)
+        for (int i = 0; i < itemData.BuffArray.Length; i++)
         {
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Damage Buff");
-            int arrayLength = itemData.damageBuff.Length;
-            itemData.damageBuff[arrayLength - 1].buffSchool = (Schools)EditorGUILayout.EnumPopup(itemData.damageBuff[arrayLength - 1].buffSchool);
-            itemData.damageBuff[arrayLength - 1].buffValue = EditorGUILayout.IntField(itemData.damageBuff[arrayLength - 1].buffValue);
-            GUILayout.EndHorizontal();
-        }
-
-        for (int i = 0; i < itemData.accuracyBuff.Length; i++)
-        {
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Accuracy Buff");
-            int arrayLength = itemData.accuracyBuff.Length;
-            itemData.accuracyBuff[arrayLength - 1].buffSchool = (Schools)EditorGUILayout.EnumPopup(itemData.accuracyBuff[arrayLength - 1].buffSchool);
-            itemData.accuracyBuff[arrayLength - 1].buffValue = EditorGUILayout.IntField(itemData.accuracyBuff[arrayLength - 1].buffValue);
-            GUILayout.EndHorizontal();
-        }
-
-        for (int i = 0; i < itemData.critBuff.Length; i++)
-        {
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Crit Rate Buff");
-            int arrayLength = itemData.critBuff.Length;
-            itemData.critBuff[arrayLength - 1].buffSchool = (Schools)EditorGUILayout.EnumPopup(itemData.critBuff[arrayLength - 1].buffSchool);
-            itemData.critBuff[arrayLength - 1].buffValue = EditorGUILayout.IntField(itemData.critBuff[arrayLength - 1].buffValue);
-            GUILayout.EndHorizontal();
-        }
-
-        for (int i = 0; i < itemData.resistanceBuff.Length; i++)
-        {
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Resistance Buff");
-            int arrayLength = itemData.resistanceBuff.Length;
-            itemData.resistanceBuff[arrayLength - 1].buffSchool = (Schools)EditorGUILayout.EnumPopup(itemData.resistanceBuff[arrayLength - 1].buffSchool);
-            itemData.resistanceBuff[arrayLength - 1].buffValue = EditorGUILayout.IntField(itemData.resistanceBuff[arrayLength - 1].buffValue);
+            int arrayLength = itemData.BuffArray.Length;
+            GUILayout.Label("Buff " + (i+1));
+            setBuff[i] = (BuffType)EditorGUILayout.EnumPopup(setBuff[i]);
+            setSchool[i] = (Schools)EditorGUILayout.EnumPopup(setSchool[i]);
+            setValue[i] = EditorGUILayout.IntField(setValue[i]);
+            itemData.BuffArray[i] = new Buff(setBuff[i], setSchool[i], setValue[i]);
             GUILayout.EndHorizontal();
         }
 
@@ -229,31 +205,25 @@ public class AddedSettings : EditorWindow
             }
         }
 
-        if (GUILayout.Button("Add Damage Buff", GUILayout.Height(30)))
+        if (GUILayout.Button("Add Buff", GUILayout.Height(30)))
         {
-            int arrayLength = itemData.damageBuff.Length;
-            itemData.damageBuff = new DamageBuff[arrayLength + 1];
+            int arrayLength = itemData.BuffArray.Length;
+            Buff[] tempArray = itemData.BuffArray;
+            itemData.BuffArray = new Buff[arrayLength + 1];
+            BuffType[] tempBuff = setBuff;
+            setBuff = new BuffType[arrayLength + 1];
+            Schools[] tempSchool = setSchool;
+            setSchool = new Schools[arrayLength + 1];
+            int[] valueArray = setValue;
+            setValue = new int[arrayLength + 1];
+            for (int i = 0; i < tempArray.Length; i++)
+            {
+                itemData.BuffArray[i] = tempArray[i];
+                setValue[i] = valueArray[i];
+                setBuff[i] = tempBuff[i];
+                setSchool[i] = tempSchool[i];
+            }
         }
-
-
-        if (GUILayout.Button("Add Accuracy Buff", GUILayout.Height(30)))
-        {
-            int arrayLength = itemData.accuracyBuff.Length;
-            itemData.accuracyBuff = new AccuracyBuff[arrayLength + 1];
-        }
-
-        if (GUILayout.Button("Add Crit Rate Buff", GUILayout.Height(30)))
-        {
-            int arrayLength = itemData.critBuff.Length;
-            itemData.critBuff = new CritBuff[arrayLength + 1];
-        }
-
-        if (GUILayout.Button("Add Resistance Buff", GUILayout.Height(30)))
-        {
-            int arrayLength = itemData.resistanceBuff.Length;
-            itemData.resistanceBuff = new ResistanceBuff[arrayLength + 1];
-        }
-        
 
         #endregion
 

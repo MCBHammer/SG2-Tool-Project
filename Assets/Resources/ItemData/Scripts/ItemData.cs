@@ -8,32 +8,18 @@ public class ItemData : BaseData
 {
     public int[] maxHP = new int [0];
     public int[] maxMP = new int[0];
-    public DamageBuff[] damageBuff = new DamageBuff[0];
-    public AccuracyBuff[] accuracyBuff = new AccuracyBuff[0];
-    public CritBuff[] critBuff = new CritBuff[0];
-    public ResistanceBuff[] resistanceBuff = new ResistanceBuff[0];
+    public Buff[] BuffArray = new Buff[0];
 }
 
-public class DamageBuff : ItemData
+public class Buff : ItemData
 {
+    public BuffType buffType;
     public Schools buffSchool;
     public int buffValue;
-}
-
-public class AccuracyBuff : ItemData
-{
-    public Schools buffSchool;
-    public int buffValue;
-}
-
-public class CritBuff : ItemData
-{
-    public Schools buffSchool;
-    public int buffValue;
-}
-
-public class ResistanceBuff : ItemData
-{
-    public Schools buffSchool;
-    public int buffValue;
+    public Buff(BuffType setBuff, Schools setSchool, int setValue)
+    {
+        buffType = setBuff;
+        buffSchool = setSchool;
+        buffValue = setValue;
+    }
 }

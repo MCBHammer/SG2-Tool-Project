@@ -27,4 +27,12 @@ namespace Types
         MYTH,
         STORM,
     }
+
+    public enum BuffType
+    {
+        DAMAGE,
+        ACCURACY,
+        CRIT,
+        RESISTANCE
+    }
 }
